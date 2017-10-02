@@ -17,6 +17,7 @@ fixtures:
     docker: "https://github.com/garethr/garethr-docker.git"
     elasticsearch: "https://github.com/elastic/puppet-elasticsearch.git"
     epel: "https://github.com/stahnma/puppet-module-epel.git"
+    esoptra: "https://github.com/esoptra/esoptra-esoptra.git"
     etcd: "https://github.com/cristifalcas/puppet-etcd.git"
     extlib: "https://github.com/voxpupuli/puppet-extlib.git"
     file_concat: "https://github.com/electrical/puppet-lib-file_concat.git"

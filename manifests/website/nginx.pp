@@ -24,16 +24,11 @@ class profiles::website::nginx (
   Hash $vhost_packages = {},
 ) {
   class { '::nginx':
-    daemon_user => $daemon_user,
-    stream      => $stream,
+    daemon_user       => $daemon_user,
+    nginx_cfg_prepend => { 'include' => ['/etc/nginx/modules-enabled/*.conf'],
+    stream            => $stream,
   }
 
-  if $stream {
-    Class['nginx'] {
-      nginx_cfg_prepend => { 'include' => ['/etc/nginx/modules-enabled/*.conf'], },
-    }
-  }
-  
   $package_defaults = {
     ensure => present,
     tag    => 'do_a',

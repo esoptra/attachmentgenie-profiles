@@ -25,7 +25,7 @@ class profiles::website::nginx (
 ) {
   class { '::nginx':
     daemon_user       => $daemon_user,
-    nginx_cfg_prepend => { 'include' => ['/etc/nginx/modules-enabled/*.conf'],
+    nginx_cfg_prepend => { 'include' => ['/etc/nginx/modules-enabled/*.conf'] },
     stream            => $stream,
   }
 

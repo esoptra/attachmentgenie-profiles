@@ -4,6 +4,7 @@
 #  class { '::profiles::bootstrap': }
 #
 # @param accounts Manage accounts on this node.
+# @param fail2ban Manage fail2ban on this node.
 # @param firewall Manage the firewall on this node.
 # @param ntp      Manage the time settings for this node.
 # @param puppet   Manage puppet on this node.
@@ -11,6 +12,7 @@
 # @param ssh      Manage ssh on this node.
 class profiles::bootstrap (
   Boolean $accounts = false,
+  Boolean $fail2ban = false,
   Boolean $firewall = false,
   Boolean $ntp      = false,
   Boolean $puppet   = false,
@@ -34,5 +36,8 @@ class profiles::bootstrap (
   }
   if $ssh {
     class { '::profiles::bootstrap::ssh': }
+  }
+  if $fail2ban {
+    class { '::profiles::bootstrap::fail2ban': }
   }
 }

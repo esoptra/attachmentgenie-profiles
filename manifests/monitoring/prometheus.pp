@@ -3,13 +3,15 @@
 # @example when declaring the prometheus class
 #  class { '::profiles::monitoring::prometheus': }
 #
-# @param client                Install node exporter
-# @param node_exporter_version Version to install
-# @param scrape_configs        Which nodes to monitor
-# @param server                Install Server.
-# @param prometheus_version    Version to install
+# @param client                   Install node exporter
+# @param node_exporter_collectors Metrics to collect.
+# @param node_exporter_version    Version to install
+# @param scrape_configs           Which nodes to monitor
+# @param server                   Install Server.
+# @param prometheus_version       Version to install
 class profiles::monitoring::prometheus (
   Boolean $client = true,
+  Array $node_exporter_collectors =  ['diskstats','filesystem','loadavg','meminfo','netdev','stat','tcpstat','time','vmstat'],
   String $node_exporter_version = '0.14.0',
   Array $scrape_configs = [ {
       'job_name'=>'prometheus',
@@ -22,7 +24,8 @@ class profiles::monitoring::prometheus (
 ) {
   if $client {
     class { '::prometheus::node_exporter':
-      version => $node_exporter_version,
+      collectors => $node_exporter_collectors,
+      version    => $node_exporter_version,
     }
   }
   if $server {

@@ -133,6 +133,39 @@ class profiles::monitoring::icinga2 (
       target        => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 
+    ::icinga2::object::service { 'icinga':
+      import        => ['generic-service'],
+      apply         => true,
+      check_command => 'ping',
+      assign        => ['NodeName'],
+      target        => '/etc/icinga2/zones.d/global-templates/services.conf',
+    }
+
+
+    ::icinga2::object::service { 'load':
+      import        => ['generic-service'],
+      apply         => true,
+      check_command => 'ping',
+      assign        => ['NodeName'],
+      target        => '/etc/icinga2/zones.d/global-templates/services.conf',
+    }
+
+    ::icinga2::object::service { 'procs':
+      import        => ['generic-service'],
+      apply         => true,
+      check_command => 'ping',
+      assign        => ['NodeName'],
+      target        => '/etc/icinga2/zones.d/global-templates/services.conf',
+    }
+
+    ::icinga2::object::service { 'users':
+      import        => ['generic-service'],
+      apply         => true,
+      check_command => 'ping',
+      assign        => ['NodeName'],
+      target        => '/etc/icinga2/zones.d/global-templates/services.conf',
+    }
+
     ::icinga2::object::service { 'ping4':
       import        => ['generic-service'],
       apply         => true,
@@ -146,6 +179,14 @@ class profiles::monitoring::icinga2 (
       apply         => true,
       check_command => 'ping',
       assign        => ['host.address6'],
+      target        => '/etc/icinga2/zones.d/global-templates/services.conf',
+    }
+
+    ::icinga2::object::service { 'ssh':
+      import        => ['generic-service'],
+      apply         => true,
+      check_command => 'ping',
+      assign        => ['host.address'],
       target        => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 

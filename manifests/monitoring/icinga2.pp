@@ -121,6 +121,8 @@ class profiles::monitoring::icinga2 (
       '/etc/icinga2/zones.d/linux-commands',
       '/etc/icinga2/zones.d/global-templates']:
       ensure => directory,
+      user   => 'nagios',
+      group  => 'nagios',
       mode   => '0750',
       tag    => 'icinga2::config::file',
     }
@@ -167,9 +169,9 @@ class profiles::monitoring::icinga2 (
 
     ::icinga2::object::service { 'linux_ping4':
       import           => ['generic-service'],
-      service_name     => 'ping',
+      service_name     => 'ping4',
       apply            => true,
-      check_command    => 'ping4',
+      check_command    => 'ping',
       command_endpoint => 'host.name',
       assign           => ['host.address'],
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
@@ -223,6 +225,8 @@ class profiles::monitoring::icinga2 (
     # Static config files
     file { '/etc/icinga2/zones.d/global-templates/templates.conf':
       ensure => file,
+      user   => 'nagios',
+      group  => 'nagios',
       mode   => '0640',
       source => 'puppet:///modules/profiles/monitoring/icinga2/templates.conf',
     }

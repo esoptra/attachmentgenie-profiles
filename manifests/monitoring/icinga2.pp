@@ -125,6 +125,14 @@ class profiles::monitoring::icinga2 (
       tag    => 'icinga2::config::file',
     }
 
+    ::icinga2::object::service { 'apt':
+      import        => ['generic-service'],
+      apply         => true,
+      check_command => 'ping',
+      assign        => ['NodeName'],
+      target        => '/etc/icinga2/zones.d/global-templates/services.conf',
+    }
+
     ::icinga2::object::service { 'ping4':
       import        => ['generic-service'],
       apply         => true,
@@ -147,7 +155,7 @@ class profiles::monitoring::icinga2 (
       apply            => true,
       check_command    => 'load',
       command_endpoint => 'host.name',
-      assign           => ['host.address'],
+      assign           => ['NodeName'],
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 
@@ -157,7 +165,7 @@ class profiles::monitoring::icinga2 (
       check_command    => 'disk',
       command_endpoint => 'host.name',
       vars             => 'vars + config',
-      assign           => ['host.address'],
+      assign           => ['NodeName'],
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 
@@ -169,8 +177,6 @@ class profiles::monitoring::icinga2 (
     # Static config files
     file { '/etc/icinga2/zones.d/global-templates/templates.conf':
       ensure => file,
-      owner  => 'icinga',
-      group  => 'icinga',
       mode   => '0640',
       source => 'puppet:///modules/profiles/monitoring/icinga2/templates.conf',
     }

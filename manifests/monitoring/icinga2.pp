@@ -167,9 +167,9 @@ class profiles::monitoring::icinga2 (
 
     ::icinga2::object::service { 'linux_ping4':
       import           => ['generic-service'],
-      service_name     => 'load',
+      service_name     => 'ping',
       apply            => true,
-      check_command    => 'load',
+      check_command    => 'ping4',
       command_endpoint => 'host.name',
       assign           => ['host.address'],
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
@@ -177,9 +177,9 @@ class profiles::monitoring::icinga2 (
 
     ::icinga2::object::service { 'linux_ping6':
       import           => ['generic-service'],
-      service_name     => 'load',
+      service_name     => 'ping6',
       apply            => true,
-      check_command    => 'load',
+      check_command    => 'ping',
       command_endpoint => 'host.name',
       assign           => ['host.address6'],
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',

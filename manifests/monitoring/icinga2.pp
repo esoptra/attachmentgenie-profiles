@@ -125,69 +125,74 @@ class profiles::monitoring::icinga2 (
       tag    => 'icinga2::config::file',
     }
 
-    ::icinga2::object::service { 'apt':
-      import        => ['generic-service'],
-      apply         => true,
-      check_command => 'ping',
-      assign        => ['NodeName'],
-      target        => '/etc/icinga2/zones.d/global-templates/services.conf',
+    ::icinga2::object::service { 'linux_apt':
+      import           => ['generic-service'],
+      service_name     => 'apt',
+      apply            => true,
+      check_command    => 'apt',
+      command_endpoint => 'host.name',
+      assign           => ['NodeName'],
+      target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 
-    ::icinga2::object::service { 'icinga':
-      import        => ['generic-service'],
-      apply         => true,
-      check_command => 'ping',
-      assign        => ['NodeName'],
-      target        => '/etc/icinga2/zones.d/global-templates/services.conf',
+    ::icinga2::object::service { 'linux_icinga':
+      import           => ['generic-service'],
+      service_name     => 'icinga',
+      apply            => true,
+      check_command    => 'icinga',
+      command_endpoint => 'host.name',
+      assign           => ['NodeName'],
+      target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 
-
-    ::icinga2::object::service { 'load':
-      import        => ['generic-service'],
-      apply         => true,
-      check_command => 'ping',
-      assign        => ['NodeName'],
-      target        => '/etc/icinga2/zones.d/global-templates/services.conf',
+    ::icinga2::object::service { 'linux_procs':
+      import           => ['generic-service'],
+      service_name     => 'procs',
+      apply            => true,
+      check_command    => 'procs',
+      command_endpoint => 'host.name',
+      assign           => ['NodeName'],
+      target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 
-    ::icinga2::object::service { 'procs':
-      import        => ['generic-service'],
-      apply         => true,
-      check_command => 'ping',
-      assign        => ['NodeName'],
-      target        => '/etc/icinga2/zones.d/global-templates/services.conf',
+    ::icinga2::object::service { 'linux_users':
+      import           => ['generic-service'],
+      service_name     => 'users',
+      apply            => true,
+      check_command    => 'users',
+      command_endpoint => 'host.name',
+      assign           => ['NodeName'],
+      target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 
-    ::icinga2::object::service { 'users':
-      import        => ['generic-service'],
-      apply         => true,
-      check_command => 'ping',
-      assign        => ['NodeName'],
-      target        => '/etc/icinga2/zones.d/global-templates/services.conf',
+    ::icinga2::object::service { 'linux_ping4':
+      import           => ['generic-service'],
+      service_name     => 'load',
+      apply            => true,
+      check_command    => 'load',
+      command_endpoint => 'host.name',
+      assign           => ['host.address'],
+      target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 
-    ::icinga2::object::service { 'ping4':
-      import        => ['generic-service'],
-      apply         => true,
-      check_command => 'ping',
-      assign        => ['host.address'],
-      target        => '/etc/icinga2/zones.d/global-templates/services.conf',
+    ::icinga2::object::service { 'linux_ping6':
+      import           => ['generic-service'],
+      service_name     => 'load',
+      apply            => true,
+      check_command    => 'load',
+      command_endpoint => 'host.name',
+      assign           => ['host.address6'],
+      target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 
-    ::icinga2::object::service { 'ping6':
-      import        => ['generic-service'],
-      apply         => true,
-      check_command => 'ping',
-      assign        => ['host.address6'],
-      target        => '/etc/icinga2/zones.d/global-templates/services.conf',
-    }
-
-    ::icinga2::object::service { 'ssh':
-      import        => ['generic-service'],
-      apply         => true,
-      check_command => 'ping',
-      assign        => ['host.address'],
-      target        => '/etc/icinga2/zones.d/global-templates/services.conf',
+    ::icinga2::object::service { 'linux_ssh':
+      import           => ['generic-service'],
+      service_name     => 'ssh',
+      apply            => true,
+      check_command    => 'ssh',
+      command_endpoint => 'host.name',
+      assign           => ['NodeName'],
+      target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 
     ::icinga2::object::service { 'linux_load':

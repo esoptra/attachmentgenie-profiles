@@ -86,7 +86,7 @@ class profiles::monitoring::icinga2 (
       }
 
       @@::icinga2::object::zone { $::fqdn:
-        endpoints => [ $::fqdn ],
+        endpoints => [ $ipaddress ],
         parent    => $parent_zone,
         target    => "/etc/icinga2/zones.d/${parent_zone}/${::hostname}.conf",
       }

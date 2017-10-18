@@ -168,26 +168,6 @@ class profiles::monitoring::icinga2 (
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 
-    ::icinga2::object::service { 'linux_ping4':
-      import           => ['generic-service'],
-      service_name     => 'ping4',
-      apply            => true,
-      check_command    => 'ping',
-      command_endpoint => 'host.name',
-      assign           => ['host.address'],
-      target           => '/etc/icinga2/zones.d/global-templates/services.conf',
-    }
-
-    ::icinga2::object::service { 'linux_ping6':
-      import           => ['generic-service'],
-      service_name     => 'ping6',
-      apply            => true,
-      check_command    => 'ping',
-      command_endpoint => 'host.name',
-      assign           => ['host.address6'],
-      target           => '/etc/icinga2/zones.d/global-templates/services.conf',
-    }
-
     ::icinga2::object::service { 'linux_ssh':
       import           => ['generic-service'],
       service_name     => 'ssh',

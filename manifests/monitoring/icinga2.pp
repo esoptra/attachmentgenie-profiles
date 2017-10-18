@@ -121,8 +121,6 @@ class profiles::monitoring::icinga2 (
       '/etc/icinga2/zones.d/linux-commands',
       '/etc/icinga2/zones.d/global-templates']:
       ensure => directory,
-      owner  => 'icinga',
-      group  => 'icinga',
       mode   => '0750',
       tag    => 'icinga2::config::file',
     }

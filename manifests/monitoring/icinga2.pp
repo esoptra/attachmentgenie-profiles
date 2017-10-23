@@ -3,34 +3,52 @@
 # @example when declaring the node role
 #  class { '::profiles::monitoring::icinga2': }
 #
+# @param api_endpoint      Public API endpoint.
+# @param api_password      Api password.
+# @param api_user          Api user.
 # @param parent_endpoints  Icinga parents.
+# @param slack_webhook     Slack webhook url.
 # @param client            Is this a icinga client.
+# @param confd             Include conf.d directory or specify your own.
 # @param database_host     Db host.
 # @param database_name     Db name.
 # @param database_password Db password.
 # @param database_user     Db user.
 # @param features          Enabled features.
+# @param group             Group
 # @param ipaddress         Primary ipaddress.
 # @param manage_repo       Manage icinga repository.
+# @param owner             Owner
 # @param parent_zone       Icinga zone.
 # @param plugins_package   Package with plugins to install.
 # @param server            Is this a icinga masters.
+# @param slack             Slack integration.
+# @param slack_channel     Slack channel to send notifications to.
 # @param vars              Icinga vars.
 class profiles::monitoring::icinga2 (
+  Optional[String] $api_endpoint,
   Hash $parent_endpoints,
+  Optional[String] $slack_webhook,
+  String $api_password = 'icinga',
+  String $api_user = 'root',
   Boolean $client = true,
+  Variant[Boolean,String] $confd = false,
   String $database_host = '127.0.0.1',
   String $database_name = 'icinga2',
   String $database_password = 'icinga2',
   String $database_user = 'icinga2',
   Array $features = [ 'checker', 'command', 'mainlog', 'notification' ],
+  String $group = $::profiles::monitoring::icinga2::params::group,
   String $ipaddress = $::ipaddress,
   Boolean $manage_repo = false,
+  String $owner = $::profiles::monitoring::icinga2::params::owner,
   String $parent_zone = 'master',
-  String $plugins_package = 'nagios-plugins-all',
+  String $plugins_package = $::profiles::monitoring::icinga2::params::plugins_package,
   Boolean $server = false,
+  Boolean $slack = false,
+  String $slack_channel = '#icinga',
   Hash $vars = {},
-) {
+) inherits profiles::monitoring::icinga2::params {
   if $server {
     $constants = {
       'ZoneName' => 'master',
@@ -56,7 +74,7 @@ class profiles::monitoring::icinga2 (
   }
 
   class { '::icinga2':
-    confd       => false,
+    confd       => $confd,
     constants   => $constants,
     features    => $features,
     manage_repo => true,
@@ -112,8 +130,8 @@ class profiles::monitoring::icinga2 (
       import_schema => true,
     }
 
-    ::icinga2::object::apiuser { 'root':
-      password    => 'icinga',
+    ::icinga2::object::apiuser { $api_user:
+      password    => $api_password,
       permissions => [ '*' ],
       target      => "/etc/icinga2/zones.d/${parent_zone}/api-users.conf",
     }
@@ -128,14 +146,19 @@ class profiles::monitoring::icinga2 (
       tag    => 'icinga2::config::file',
     }
 
-    ::icinga2::object::service { 'linux_apt':
-      import           => ['generic-service'],
-      service_name     => 'apt',
-      apply            => true,
-      check_command    => 'apt',
-      command_endpoint => 'host.name',
-      assign           => ['NodeName'],
-      target           => '/etc/icinga2/zones.d/global-templates/services.conf',
+    case $::osfamily {
+      'Debian': {
+        ::icinga2::object::service { 'linux_apt':
+          import           => ['generic-service'],
+          service_name     => 'apt',
+          apply            => true,
+          check_command    => 'apt',
+          command_endpoint => 'host.name',
+          assign           => ['NodeName'],
+          target           => '/etc/icinga2/zones.d/global-templates/services.conf',
+        }
+      }
+      default: {}
     }
 
     ::icinga2::object::service { 'linux_icinga':
@@ -196,6 +219,40 @@ class profiles::monitoring::icinga2 (
       vars             => 'vars + config',
       assign           => ['NodeName'],
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
+    }
+
+    ::icinga2::object::usergroup { 'icingaadmins':
+      display_name => 'Icinga 2 Admin Group',
+    }
+
+    ::icinga2::object::timeperiod{ '24x7':
+      ranges => {
+        "monday"    => "00:00-24:00",
+        "tuesday"   => "00:00-24:00",
+        "wednesday" => "00:00-24:00",
+        "thursday"  => "00:00-24:00",
+        "friday"    => "00:00-24:00",
+        "saturday"  => "00:00-24:00",
+        "sunday"    => "00:00-24:00",
+      }
+    }
+
+    ::icinga2::object::timeperiod{ '9to5':
+      ranges => {
+        "monday"    => "09:00-17:00",
+        "tuesday"   => "09:00-17:00",
+        "wednesday" => "09:00-17:00",
+        "thursday"  => "09:00-17:00",
+        "friday"    => "09:00-17:00",
+      }
+    }
+
+    if $slack {
+      class { '::profiles::monitoring::icinga2::slack':
+        icinga_endpoint => $api_endpoint,
+        slack_channel   => $slack_channel,
+        slack_webhook   => $slack_webhook,
+      }
     }
 
     # Collect objects

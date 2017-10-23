@@ -223,9 +223,11 @@ class profiles::monitoring::icinga2 (
 
     ::icinga2::object::usergroup { 'icingaadmins':
       display_name => 'Icinga 2 Admin Group',
+      target       => '/etc/icinga2/zones.d/global-templates/usergroups.conf',
     }
 
     ::icinga2::object::timeperiod{ '24x7':
+      target => '/etc/icinga2/zones.d/global-templates/timeperiods.conf',
       ranges => {
         "monday"    => "00:00-24:00",
         "tuesday"   => "00:00-24:00",
@@ -238,6 +240,7 @@ class profiles::monitoring::icinga2 (
     }
 
     ::icinga2::object::timeperiod{ '9to5':
+      target => '/etc/icinga2/zones.d/global-templates/timeperiods.conf',
       ranges => {
         "monday"    => "09:00-17:00",
         "tuesday"   => "09:00-17:00",

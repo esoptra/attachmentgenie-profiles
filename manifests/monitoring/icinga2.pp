@@ -6,8 +6,6 @@
 # @param api_endpoint      Public API endpoint.
 # @param api_password      Api password.
 # @param api_user          Api user.
-# @param parent_endpoints  Icinga parents.
-# @param slack_webhook     Slack webhook url.
 # @param client            Is this a icinga client.
 # @param confd             Include conf.d directory or specify your own.
 # @param database_host     Db host.
@@ -19,16 +17,17 @@
 # @param ipaddress         Primary ipaddress.
 # @param manage_repo       Manage icinga repository.
 # @param owner             Owner
+# @param parent_endpoints  Icinga parents.
 # @param parent_zone       Icinga zone.
 # @param plugins_package   Package with plugins to install.
 # @param server            Is this a icinga masters.
 # @param slack             Slack integration.
 # @param slack_channel     Slack channel to send notifications to.
+# @param slack_webhook     Slack webhook url.
 # @param vars              Icinga vars.
 class profiles::monitoring::icinga2 (
-  Optional[String] $api_endpoint,
   Hash $parent_endpoints,
-  Optional[String] $slack_webhook,
+  Optional[String] $api_endpoint = undef,
   String $api_password = 'icinga',
   String $api_user = 'root',
   Boolean $client = true,
@@ -47,6 +46,7 @@ class profiles::monitoring::icinga2 (
   Boolean $server = false,
   Boolean $slack = false,
   String $slack_channel = '#icinga',
+  Optional[String] $slack_webhook = undef,
   Hash $vars = {},
 ) inherits profiles::monitoring::icinga2::params {
   if $server {

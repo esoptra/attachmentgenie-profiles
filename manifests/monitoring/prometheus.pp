@@ -14,13 +14,13 @@ class profiles::monitoring::prometheus (
   Array $node_exporter_collectors =  ['diskstats','filesystem','loadavg','meminfo','netdev','stat','tcpstat','time','vmstat'],
   String $node_exporter_version = '0.14.0',
   Array $scrape_configs = [ {
-      'job_name'=>'prometheus',
-      'scrape_interval'=> '30s',
-      'scrape_timeout'=>'30s',
-      'static_configs'=> [{'targets'=>['localhost:9090'], 'labels'=> { 'alias'=>'Prometheus'}}]
-    } ],
+    'job_name'=>'prometheus',
+    'scrape_interval'=> '30s',
+    'scrape_timeout'=>'30s',
+    'static_configs'=> [{'targets'=>['localhost:9090'], 'labels'=> { 'alias'=>'Prometheus'}}]
+  } ],
   Boolean $server = false,
-  String $prometheus_version = '1.7.2',
+  String $prometheus_version = '1.8.0',
 ) {
   if $client {
     class { '::prometheus::node_exporter':

@@ -6,6 +6,7 @@
 # @param checks   Consul checks,
 # @param config   Consul config,
 # @param options  Additional consul start up flags.
+# @param resolv   Configure resolv.conf to use consul.
 # @param services Consul services.
 # @param version  Version of consul to install.
 # @param watches  Consul watches.
@@ -16,6 +17,7 @@ class profiles::orchestration::consul (
     'datacenter' => 'vagrant',
   },
   String $options = '-enable-script-checks -syslog',
+  Boolean $resolv = false,
   Hash $services  = {},
   String $version = '0.9.3',
   Hash $watches   = {},
@@ -33,14 +35,16 @@ class profiles::orchestration::consul (
   create_resources(::consul::service, $services)
   create_resources(::consul::watch, $watches)
 
-  class { '::dnsmasq': }
-  dnsmasq::conf { 'consul':
-    ensure  => present,
-    content => 'server=/consul/127.0.0.1#8600',
-  }
+  if $resolv {
+    class { '::dnsmasq': }
+    dnsmasq::conf { 'consul':
+      ensure  => present,
+      content => 'server=/consul/127.0.0.1#8600',
+    }
 
-  class { 'resolv_conf':
-    domainname  => $::domain,
-    nameservers => ['127.0.0.1', '10.0.2.3'],
+    class { 'resolv_conf':
+      domainname  => $::domain,
+      nameservers => ['127.0.0.1', '10.0.2.3'],
+    }
   }
 }

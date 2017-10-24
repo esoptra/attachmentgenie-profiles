@@ -23,6 +23,9 @@ class profiles::bootstrap (
     class { '::profiles::bootstrap::accounts': }
   }
   if $firewall {
+    if $fail2ban {
+      class { '::profiles::bootstrap::fail2ban': }
+    }
     class { '::profiles::bootstrap::firewall': }
   }
   if $ntp {
@@ -36,8 +39,5 @@ class profiles::bootstrap (
   }
   if $ssh {
     class { '::profiles::bootstrap::ssh': }
-  }
-  if $fail2ban {
-    class { '::profiles::bootstrap::fail2ban': }
   }
 }

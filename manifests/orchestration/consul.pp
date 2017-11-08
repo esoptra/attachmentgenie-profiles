@@ -19,7 +19,7 @@ class profiles::orchestration::consul (
     'data_dir'   => '/opt/consul',
     'datacenter' => 'vagrant',
   },
-  String $domain = $::domain,
+  Optional[String] $domain = $::domain,
   Array $name_servers = ['127.0.0.1'],
   String $options = '-enable-script-checks -syslog',
   Boolean $resolv = false,

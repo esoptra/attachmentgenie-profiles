@@ -5,7 +5,7 @@
 #
 # @param checks       Consul checks,
 # @param config       Consul config,
-# @param domainname   Resolv.conf domain
+# @param domain       Resolv.conf domain
 # @param name_servers Name servers to use in resolv.conf
 # @param options      Additional consul start up flags.
 # @param resolv       Configure resolv.conf to use consul.
@@ -19,7 +19,7 @@ class profiles::orchestration::consul (
     'data_dir'   => '/opt/consul',
     'datacenter' => 'vagrant',
   },
-  String $domainame = $::domain,
+  String $domain = $::domain,
   Array $name_servers = ['127.0.0.1'],
   String $options = '-enable-script-checks -syslog',
   Boolean $resolv = false,
@@ -49,7 +49,7 @@ class profiles::orchestration::consul (
     }
 
     class { 'resolv_conf':
-      domainname  => $domainame,
+      domainname  => $domain,
       nameservers => $name_servers,
       searchpath  => $searchpath,
     }

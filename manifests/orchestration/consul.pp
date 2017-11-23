@@ -49,7 +49,7 @@ class profiles::orchestration::consul (
     }
 
     class { 'resolv_conf':
-      domainname  => $domainname,
+      domainname  => $domain,
       nameservers => $name_servers,
       searchpath  => $searchpath,
     }

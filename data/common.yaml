@@ -12,3 +12,15 @@ lookup_options:
     merge:
       strategy: deep
       merge_hash_arrays: true
+  profiles::bootstrap::repositories::repositories:
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+  profiles::monitoring::logstash::config_files:
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+  profiles::orchestration::consul::services:
+    merge:
+      strategy: deep
+      merge_hash_arrays: true

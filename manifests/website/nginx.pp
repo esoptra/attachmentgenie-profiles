@@ -22,6 +22,7 @@ class profiles::website::nginx (
   Hash $streams = {},
   Hash $vhosts = {},
   Hash $vhost_packages = {},
+  Hash $location = {},
 ) {
   class { '::nginx':
     daemon_user       => $daemon_user,
@@ -41,6 +42,7 @@ class profiles::website::nginx (
   create_resources( 'nginx::resource::server', $vhosts, $resource_defaults )
   create_resources( 'nginx::resource::streamhost', $streams, $resource_defaults )
   create_resources( 'nginx::resource::upstream', $upstreams, $resource_defaults )
+  create_resources( 'nginx::resource::location', $location, $resource_defaults )
 
   Package<| tag == 'do_a' |> -> Nginx::Resource::Server<| tag == 'do_b' |>
   Package<| tag == 'do_a' |> -> Nginx::Resource::Streamhost<| tag == 'do_b' |>

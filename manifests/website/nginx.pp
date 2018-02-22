@@ -22,7 +22,6 @@ class profiles::website::nginx (
   Hash $streams = {},
   Hash $vhosts = {},
   Hash $vhost_packages = {},
-  
 ) {
   class { '::nginx':
     daemon_user       => $daemon_user,

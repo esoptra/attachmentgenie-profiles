@@ -53,4 +53,11 @@ class profiles::alerting::icingaweb2 (
     ido_db_username   => $ido_database_user,
     ido_db_password   => $ido_database_password,
   }
+  class {'icingaweb2::config::role':
+    'View only' => {
+      users       => 'Viewer',
+      permissions => 'module/monitoring',
+    }
+  }
+
 }

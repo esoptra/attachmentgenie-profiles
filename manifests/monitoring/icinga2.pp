@@ -109,6 +109,15 @@ class profiles::monitoring::icinga2 (
         parent    => $parent_zone,
         target    => "/etc/icinga2/zones.d/${parent_zone}/${::hostname}.conf",
       }
+      file {'add-repository.d':
+        ensure  => directory,
+        path    => '/etc/icinga2/repository.d',
+        owner  => 'nagios',
+        group  => 'nagios',
+        mode    => '0750',
+        require => Package['icinga2'],
+        before  => Service['icinga2'],
+      }
     }
 
     @@::icinga2::object::host { $::fqdn:
@@ -118,6 +127,7 @@ class profiles::monitoring::icinga2 (
       target       => "/etc/icinga2/zones.d/${parent_zone}/${::hostname}.conf",
       vars         => $vars,
     }
+    
   }
 
   if $server {

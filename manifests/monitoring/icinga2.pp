@@ -190,6 +190,16 @@ class profiles::monitoring::icinga2 (
       assign           => ['NodeName'],
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
+    
+    ::icinga2::object::service { 'esoptra_health':
+      import           => ['generic-service'],
+      service_name     => 'esoptra',
+      apply            => false,
+      check_command    => 'esoptra',
+      command_endpoint => 'host.name',
+      assign           => ['NodeName'],
+      target           => '/etc/icinga2/zones.d/global-templates/services.conf',
+    }
 
     ::icinga2::object::service { 'linux_users':
       import           => ['generic-service'],

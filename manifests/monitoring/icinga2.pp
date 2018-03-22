@@ -44,6 +44,7 @@ class profiles::monitoring::icinga2 (
   String $parent_zone = 'master',
   String $plugins_package = $::profiles::monitoring::icinga2::params::plugins_package,
   Boolean $server = false,
+  Boolean $esoptra = false,
   Boolean $slack = false,
   String $slack_channel = '#icinga',
   Optional[String] $slack_webhook = undef,

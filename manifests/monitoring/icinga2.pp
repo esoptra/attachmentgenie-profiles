@@ -209,7 +209,7 @@ class profiles::monitoring::icinga2 (
       apply            => true,
       check_command    => 'esoptra',
       command_endpoint => 'host.name',
-      assign           => ['host.vars.esoptra == "true"'],
+      assign           => ['host.vars.esoptra == true'],
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 

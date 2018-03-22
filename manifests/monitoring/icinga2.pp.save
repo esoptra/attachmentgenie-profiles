@@ -119,23 +119,13 @@ class profiles::monitoring::icinga2 (
         before  => Service['icinga2'],
       }
     }
-    if $esoptra {
 
-      @@::icinga2::object::host { $::fqdn:
-        address      => $ipaddress,
-        display_name => $::hostname,
-        import       => ['esoptra-host'],
-        target       => "/etc/icinga2/zones.d/${parent_zone}/${::hostname}.conf",
-        vars         => $vars,
-    }
-    else {
-
-      @@::icinga2::object::host { $::fqdn:
-        address      => $ipaddress,
-        display_name => $::hostname,
-        import       => ['linux-host'],
-        target       => "/etc/icinga2/zones.d/${parent_zone}/${::hostname}.conf",
-        vars         => $vars,
+    @@::icinga2::object::host { $::fqdn:
+      address      => $ipaddress,
+      display_name => $::hostname,
+      import       => ['linux-host'],
+      target       => "/etc/icinga2/zones.d/${parent_zone}/${::hostname}.conf",
+      vars         => $vars,
     }
     
   }
@@ -201,13 +191,14 @@ class profiles::monitoring::icinga2 (
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
     
+    
     ::icinga2::object::service { 'esoptra_health':
       import           => ['generic-service'],
       service_name     => 'esoptra',
       apply            => true,
       check_command    => 'esoptra',
       command_endpoint => 'host.name',
-      assign           => ['host.vars.esoptra == "true"'],
+      assign           => ['NodeName'],
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 

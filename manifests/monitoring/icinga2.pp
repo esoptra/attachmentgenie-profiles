@@ -127,6 +127,7 @@ class profiles::monitoring::icinga2 (
         import       => ['esoptra-host'],
         target       => "/etc/icinga2/zones.d/${parent_zone}/${::hostname}.conf",
         vars         => $vars,
+      }
     }
     else {
 

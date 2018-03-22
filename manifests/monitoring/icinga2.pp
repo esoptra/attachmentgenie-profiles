@@ -112,8 +112,8 @@ class profiles::monitoring::icinga2 (
       file {'add-repository.d':
         ensure  => directory,
         path    => '/etc/icinga2/repository.d',
-        owner  => 'nagios',
-        group  => 'nagios',
+        owner   => 'nagios',
+        group   => 'nagios',
         mode    => '0750',
         require => Package['icinga2'],
         before  => Service['icinga2'],
@@ -137,8 +137,8 @@ class profiles::monitoring::icinga2 (
         import       => ['linux-host'],
         target       => "/etc/icinga2/zones.d/${parent_zone}/${::hostname}.conf",
         vars         => $vars,
+      }
     }
-    
   }
 
   if $server {
@@ -201,7 +201,7 @@ class profiles::monitoring::icinga2 (
       assign           => ['NodeName'],
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
-    
+
     ::icinga2::object::service { 'esoptra_health':
       import           => ['generic-service'],
       service_name     => 'esoptra',

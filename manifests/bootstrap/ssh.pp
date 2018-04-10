@@ -9,6 +9,7 @@
 # @param password_authentication Accept access using password.
 class profiles::bootstrap::ssh (
   String $allow_agent_forwarding  = 'no',
+  String $allow_tcp_forwarding    = 'no',
   String $forward_agent           = 'no',
   String $gatewayports            = 'no',
   String $password_authentication = 'no',
@@ -18,8 +19,9 @@ class profiles::bootstrap::ssh (
     password_authentication => $password_authentication,
   }
   class { '::ssh::server':
-    allow_agent_forwarding  => $allow_agent_forwarding,
-    password_authentication => $password_authentication,
+    allow_agent_forwarding   => $allow_agent_forwarding,
+    allow_tcp_forwarding     => $allow_tcp_forwarding,
+    password_authentication  => $password_authentication,
     gateway_ports            => $gatewayports
   }
 }

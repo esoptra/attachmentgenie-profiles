@@ -20,5 +20,6 @@ class profiles::bootstrap::ssh (
   class { '::ssh::server':
     allow_agent_forwarding  => $allow_agent_forwarding,
     password_authentication => $password_authentication,
+    gateway_ports            => $gatewayports
   }
 }

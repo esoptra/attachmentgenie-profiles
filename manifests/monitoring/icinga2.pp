@@ -25,6 +25,8 @@
 # @param slack_channel     Slack channel to send notifications to.
 # @param slack_webhook     Slack webhook url.
 # @param vars              Icinga vars.
+# @param esoptra           enable esoptra specific checks
+# @params jenkins          enable jenkins specific checks
 class profiles::monitoring::icinga2 (
   Hash $parent_endpoints,
   Optional[String] $api_endpoint = undef,
@@ -45,6 +47,7 @@ class profiles::monitoring::icinga2 (
   String $plugins_package = $::profiles::monitoring::icinga2::params::plugins_package,
   Boolean $server = false,
   Boolean $esoptra = false,
+  Boolean $jenkins = false,
   Boolean $slack = false,
   String $slack_channel = '#icinga',
   Optional[String] $slack_webhook = undef,
@@ -126,6 +129,16 @@ class profiles::monitoring::icinga2 (
         address      => $ipaddress,
         display_name => $::hostname,
         import       => ['esoptra-host'],
+        target       => "/etc/icinga2/zones.d/${parent_zone}/${::hostname}.conf",
+        vars         => $vars,
+      }
+    }
+    elsif $jenkins {
+
+      @@::icinga2::object::host { $::fqdn:
+        address      => $ipaddress,
+        display_name => $::hostname,
+        import       => ['jenkins-host'],
         target       => "/etc/icinga2/zones.d/${parent_zone}/${::hostname}.conf",
         vars         => $vars,
       }
@@ -213,6 +226,36 @@ class profiles::monitoring::icinga2 (
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 
+    ::icinga2::object::service { 'jenkins-esoptra':
+      import           => ['generic-service'],
+      service_name     => 'jenkins-esoptra',
+      apply            => true,
+      check_command    => 'esoptra-esoptra',
+      command_endpoint => 'host.name',
+      assign           => ['host.vars.jenkins == true'],
+      target           => '/etc/icinga2/zones.d/global-templates/services.conf',
+    }
+
+    ::icinga2::object::service { 'jenkins-layers':
+      import           => ['generic-service'],
+      service_name     => 'jenkins-layers',
+      apply            => true,
+      check_command    => 'esoptra-layers',
+      command_endpoint => 'host.name',
+      assign           => ['host.vars.jenkins == true'],
+      target           => '/etc/icinga2/zones.d/global-templates/services.conf',
+    }
+
+    ::icinga2::object::service { 'jenkins-pluglets':
+      import           => ['generic-service'],
+      service_name     => 'jenkins-pluglets',
+      apply            => true,
+      check_command    => 'esoptra-pluglets',
+      command_endpoint => 'host.name',
+      assign           => ['host.vars.jenkins == true'],
+      target           => '/etc/icinga2/zones.d/global-templates/services.conf',
+    }
+
     ::icinga2::object::service { 'linux_users':
       import           => ['generic-service'],
       service_name     => 'users',
@@ -271,14 +314,14 @@ class profiles::monitoring::icinga2 (
       }
     }
 
-    ::icinga2::object::timeperiod{ '9to5':
+    ::icinga2::object::timeperiod{ '8to18':
       target => '/etc/icinga2/zones.d/global-templates/timeperiods.conf',
       ranges => {
-        'monday'    => '09:00-17:00',
-        'tuesday'   => '09:00-17:00',
-        'wednesday' => '09:00-17:00',
-        'thursday'  => '09:00-17:00',
-        'friday'    => '09:00-17:00',
+        'monday'    => '08:00-18:00',
+        'tuesday'   => '08:00-18:00',
+        'wednesday' => '08:00-18:00',
+        'thursday'  => '08:00-18:00',
+        'friday'    => '08:00-18:00',
       }
     }
 

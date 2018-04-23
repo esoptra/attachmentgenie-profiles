@@ -27,6 +27,9 @@
 # @param vars              Icinga vars.
 # @param esoptra           enable esoptra specific checks
 # @params jenkins          enable jenkins specific checks
+# @params object_name      object name
+# @params object_type      object type
+
 class profiles::monitoring::icinga2 (
   Hash $parent_endpoints,
   Optional[String] $api_endpoint = undef,
@@ -49,6 +52,8 @@ class profiles::monitoring::icinga2 (
   Boolean $esoptra = false,
   Boolean $jenkins = false,
   Boolean $slack = false,
+  String $object_name  => undef,
+  String $object_type  => undef,
   String $slack_channel = '#icinga',
   Optional[String] $slack_webhook = undef,
   Hash $vars = {},

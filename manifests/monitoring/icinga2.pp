@@ -232,7 +232,7 @@ class profiles::monitoring::icinga2 (
     }
 
     ::icinga2::object::service { 'jenkins-esoptra':
-      import           => ['generic-service'],
+      import           => ['service-with-sound'],
       service_name     => 'jenkins-esoptra',
       apply            => true,
       check_command    => 'jenkins-esoptra',

@@ -296,11 +296,24 @@ class profiles::monitoring::icinga2 (
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 
-    ::icinga2::object::notificationcommand { 'play_sound':
+    ::icinga2::object::notificationcommand { 'play-sound-cmd':
       target           => '/etc/icinga2/zones.d/global-templates/notificationcommands.conf',
-      notificationcommand_name => 'play_sound',
+      notificationcommand_name => 'play_sound-cmd',
       command          => '/usr/local/bin/play_sound.sh' 
     }
+
+    ::icinga2::object::Notification { 'play-sound-notification':
+      ensure       => 'present',
+      object_name  => 'play-sound-notification',
+      object_type  => 'Notification',
+      import       => '',
+      template     => 'false',
+      target       => '/etc/icinga2/zones.d/global-templates/notificationcommands.conf',
+      order        => $order,
+      apply_target => 'Service',
+      assign       => ['service.vars.sound == "enabled"'],
+    }
+
 
     ::icinga2::object::usergroup { 'icingaadmins':
       display_name => 'Icinga 2 Admin Group',

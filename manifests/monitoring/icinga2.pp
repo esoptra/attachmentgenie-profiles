@@ -302,14 +302,13 @@ class profiles::monitoring::icinga2 (
       command          => '/usr/local/bin/play_sound.sh' 
     }
 
-    ::icinga2::object::Notification { 'play-sound-notification':
+    ::icinga2::object::notification { 'play-sound-notification':
       ensure       => 'present',
       object_name  => 'play-sound-notification',
       object_type  => 'Notification',
       import       => '',
-      template     => 'false',
+      template     => false,
       target       => '/etc/icinga2/zones.d/global-templates/notificationcommands.conf',
-      order        => $order,
       apply_target => 'Service',
       assign       => ['service.vars.sound == "enabled"'],
     }

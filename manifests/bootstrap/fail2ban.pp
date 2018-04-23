@@ -13,13 +13,13 @@
 # @param whitelist  Set ip's/ subnets to be ignored by fail2ban
 
 class profiles::bootstrap::fail2ban (
-  String $action                = 'action_mb',
+  String $action                = 'action_mw',
   Integer $bantime              = 600,
   String $config_file_template  = "fail2ban/${::lsbdistcodename}/etc/fail2ban/jail.conf.erb",
   String $email                 = 'it.admin@esoptra.com',
   Array $jails                  =['ssh', 'ssh-ddos'],
   Integer $maxretry             = 5,
-  Array $whitelist              =['127.0.0.1/8', '10.0.0.0/16', '172.31.1.0/24', '192.168.0.0/16', '81.83.16.118/32', '61.12.36.234/32'],
+  Array $whitelist              =['127.0.0.1/8', '10.0.0.0/16', '172.31.1.0/24', '192.168.0.0/16'],
 ) { class { '::fail2ban':
     action               => $action,
     bantime              => $bantime,

@@ -296,6 +296,12 @@ class profiles::monitoring::icinga2 (
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 
+    ::icinga2::object::notificationcommand { 'play_sound':
+      target           => '/etc/icinga2/zones.d/global-templates/notificationcommands.conf',
+      notificationcommand_name => 'play_sound',
+      command          => '/usr/local/bin/play_sound.sh' 
+    }
+
     ::icinga2::object::usergroup { 'icingaadmins':
       display_name => 'Icinga 2 Admin Group',
       target       => '/etc/icinga2/zones.d/global-templates/usergroups.conf',

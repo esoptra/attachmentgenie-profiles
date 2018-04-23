@@ -13,7 +13,7 @@
 # @param whitelist  Set ip's/ subnets to be ignored by fail2ban
 
 class profiles::bootstrap::fail2ban (
-  String $action                = 'action_mb',
+  String $action                = 'action_mw',
   Integer $bantime              = 600,
   String $config_file_template  = "fail2ban/${::lsbdistcodename}/etc/fail2ban/jail.conf.erb",
   String $email                 = 'it.admin@esoptra.com',

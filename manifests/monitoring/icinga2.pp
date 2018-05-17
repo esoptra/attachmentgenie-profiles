@@ -308,13 +308,13 @@ class profiles::monitoring::icinga2 (
     }
 
     ::icinga2::object::notification { 'play-sound-notification':
-      ensure       => 'present',
-      name         => 'play-sound-notification',
-      import       => 'sound-service-notification',
-      template     => false,
+      name         => ['play-sound-notification'],
+      import       => ['sound-service-notification'],
+      apply        => true,
       target       => '/etc/icinga2/zones.d/global-templates/notificationcommands.conf',
+
       apply_target => 'Service',
-      assign       => ['service.vars.sound == "enabled"'],
+      assign       => ['service.vars.sound == enabled'],
     }
 
     ::icinga2::object::usergroup { 'icingaadmins':

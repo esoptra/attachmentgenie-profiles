@@ -27,8 +27,8 @@
 # @param vars              Icinga vars.
 # @param esoptra           enable esoptra specific checks
 # @params jenkins          enable jenkins specific checks
-# @params object_name      object name
-# @params object_type      object type
+# @params note_cmd_name             name
+# @params note_cmd_type             type
 
 class profiles::monitoring::icinga2 (
   Hash $parent_endpoints,
@@ -52,8 +52,8 @@ class profiles::monitoring::icinga2 (
   Boolean $esoptra = false,
   Boolean $jenkins = false,
   Boolean $slack = false,
-  Optional[String] $object_name  = undef,
-  Optional[String] $object_type  = undef,
+  Optional[String] $note_cmd_name  = undef,
+  Optional[String] $note_cmd_type  = undef,
   String $slack_channel = '#icinga',
   Optional[String] $slack_webhook = undef,
   Hash $vars = {},
@@ -302,20 +302,18 @@ class profiles::monitoring::icinga2 (
     }
 
     ::icinga2::object::notificationcommand { 'play-sound-cmd':
-      target           => '/etc/icinga2/zones.d/global-templates/notificationcommands.conf',
+      target                   => '/etc/icinga2/zones.d/global-templates/notificationcommands.conf',
       notificationcommand_name => 'play_sound-cmd',
-      command          => '/usr/local/bin/play_sound.sh' 
+      command                  => '/usr/local/bin/play_sound.sh'
     }
 
     ::icinga2::object::notification { 'play-sound-notification':
-      ensure       => 'present',
-      object_name  => 'play-sound-notification',
-      object_type  => 'Notification',
-      import       => '',
-      template     => false,
-      target       => '/etc/icinga2/zones.d/global-templates/notificationcommands.conf',
-      apply_target => 'Service',
-      assign       => ['service.vars.sound == "enabled"'],
+      ensure         => 'present',
+      name           => 'play-sound-notification',
+      template       => false,
+      target         => '/etc/icinga2/zones.d/global-templates/notificationcommands.conf',
+      apply_target   => 'Service',
+      assign         => ['service.vars.sound == "enabled"'],
     }
 
 

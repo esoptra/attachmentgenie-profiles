@@ -308,14 +308,14 @@ class profiles::monitoring::icinga2 (
     }
 
     ::icinga2::object::notification { 'play-sound-notification':
-      ensure         => 'present',
-      name           => 'play-sound-notification',
-      template       => false,
-      target         => '/etc/icinga2/zones.d/global-templates/notificationcommands.conf',
-      apply_target   => 'Service',
-      assign         => ['service.vars.sound == "enabled"'],
+      ensure       => 'present',
+      name         => 'play-sound-notification',
+      import       => 'sound-service-notification',
+      template     => false,
+      target       => '/etc/icinga2/zones.d/global-templates/notificationcommands.conf',
+      apply_target => 'Service',
+      assign       => ['service.vars.sound == "enabled"'],
     }
-
 
     ::icinga2::object::usergroup { 'icingaadmins':
       display_name => 'Icinga 2 Admin Group',

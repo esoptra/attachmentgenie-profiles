@@ -148,6 +148,16 @@ class profiles::monitoring::icinga2 (
         vars         => $vars,
       }
     }
+    elsif $notazure {
+
+      @@::icinga2::object::host { $::fqdn:
+        address      => $ipaddress,
+        display_name => $::hostname,
+        import       => ['not-azure'],
+        target       => "/etc/icinga2/zones.d/${parent_zone}/${::hostname}.conf",
+        vars         => $vars,
+      }
+    }
     else {
 
       @@::icinga2::object::host { $::fqdn:

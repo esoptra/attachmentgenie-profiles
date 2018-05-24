@@ -27,6 +27,7 @@
 # @param vars              Icinga vars.
 # @param esoptra           enable esoptra specific checks
 # @params jenkins          enable jenkins specific checks
+# @params notazure          enable notazure specific checks
 # @params note_cmd_name             name
 # @params note_cmd_type             type
 
@@ -50,7 +51,8 @@ class profiles::monitoring::icinga2 (
   String $plugins_package = $::profiles::monitoring::icinga2::params::plugins_package,
   Boolean $server = false,
   Boolean $esoptra = false,
-  Boolean $jenkins = false,
+  Boolean $jenkins = false, 
+  Boolean $notazure = false,
   Boolean $slack = false,
   Optional[String] $note_cmd_name  = undef,
   Optional[String] $note_cmd_type  = undef,

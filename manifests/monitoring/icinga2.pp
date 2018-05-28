@@ -130,27 +130,7 @@ class profiles::monitoring::icinga2 (
         before  => Service['icinga2'],
       }
     }
-    if $esoptra {
-
-      @@::icinga2::object::host { $::fqdn:
-        address      => $ipaddress,
-        display_name => $::hostname,
-        import       => ['esoptra-host'],
-        target       => "/etc/icinga2/zones.d/${parent_zone}/${::hostname}.conf",
-        vars         => $vars,
-      }
-    }
-    elsif $jenkins {
-
-      @@::icinga2::object::host { $::fqdn:
-        address      => $ipaddress,
-        display_name => $::hostname,
-        import       => ['jenkins-host'],
-        target       => "/etc/icinga2/zones.d/${parent_zone}/${::hostname}.conf",
-        vars         => $vars,
-      }
-    }
-    elsif $notazure {
+  if $notazure {
 
       @@::icinga2::object::host { $::fqdn:
         address      => $ipaddress,
@@ -249,7 +229,17 @@ class profiles::monitoring::icinga2 (
       apply            => true,
       check_command    => 'jenkins-esoptra',
       command_endpoint => 'host.name',
-      assign           => ['host.vars.jenkins == true'],
+      assign           => ['host.vars.jenkinsesoptra == true'],
+      target           => '/etc/icinga2/zones.d/global-templates/services.conf',
+    }
+
+    ::icinga2::object::service { 'jenkins-qa':
+      import           => ['generic-service'],
+      service_name     => 'jenkins-qa',
+      apply            => true,
+      check_command    => 'jenkins-qa',
+      command_endpoint => 'host.name',
+      assign           => ['host.vars.jenkinsqa == true'],
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 
@@ -259,7 +249,7 @@ class profiles::monitoring::icinga2 (
       apply            => true,
       check_command    => 'jenkins-layers',
       command_endpoint => 'host.name',
-      assign           => ['host.vars.jenkins == true'],
+      assign           => ['host.vars.jenkinslayers == true'],
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 
@@ -269,7 +259,7 @@ class profiles::monitoring::icinga2 (
       apply            => true,
       check_command    => 'jenkins-pluglets',
       command_endpoint => 'host.name',
-      assign           => ['host.vars.jenkins == true'],
+      assign           => ['host.vars.jenkinspluglets == true'],
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 

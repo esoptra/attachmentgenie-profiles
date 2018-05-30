@@ -44,8 +44,29 @@ class profiles::orchestration::consul (
   if $resolv {
     class { '::dnsmasq': }
     dnsmasq::conf { 'consul':
+      prio    => 10,
       ensure  => present,
       content => 'server=/consul/127.0.0.1#8600',
+    }
+    dnsmasq::conf { 'azure':
+      prio    => 15,
+      ensure  => present,
+      content => 'server=/ax.internal.cloudapp.net/168.63.129.16',
+    }
+    dnsmasq::conf { 'esoptra.io':
+      prio    => 5,
+      ensure  => present,
+      content => 'server=/esoptra.io/172.31.1.10',
+    }
+    dnsmasq::conf { 'inet1':
+      prio    => 99,
+      ensure  => present,
+      content => 'server=8.8.8.8',
+    }
+    dnsmasq::conf { 'inet2':
+      prio    => 99,
+      ensure  => present,
+      content => 'server=8.8.4.4',
     }
 
     class { 'resolv_conf':
@@ -54,4 +75,5 @@ class profiles::orchestration::consul (
       searchpath  => $searchpath,
     }
   }
+
 }

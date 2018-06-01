@@ -15,7 +15,7 @@ class profiles::monitoring::logstash (
   Enum[absent,present] $ensure = present,
   String $group = 'root',
   Boolean $manage_repo = false,
-  String $repo_version = '5.x',
+#  String $repo_version = '5.x',
   String $user = 'root',
   Boolean $version = false,
 ){
@@ -24,7 +24,7 @@ class profiles::monitoring::logstash (
     logstash_group => $group,
     logstash_user  => $user,
     manage_repo    => $manage_repo,
-    repo_version   => $repo_version,
+#    repo_version   => $repo_version,
     version        => $version,
   }
   create_resources(::logstash::configfile, $config_files)

@@ -27,9 +27,9 @@ class profiles::monitoring (
   if $icinga2 {
     class { '::profiles::monitoring::icinga2': }
   }
-  if $logstash {
-    class { '::profiles::monitoring::logstash': }
-  }
+#  if $logstash {
+#    class { '::profiles::monitoring::logstash': }
+#  }
   if $prometheus {
     class { '::profiles::monitoring::prometheus': }
   }

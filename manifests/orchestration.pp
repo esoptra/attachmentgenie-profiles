@@ -20,4 +20,5 @@ class profiles::orchestration (
   if $rundeck {
     class { '::profiles::orchestration::rundeck': }
   }
+  class { '::profiles::orchestration::short_hosts': }
 }

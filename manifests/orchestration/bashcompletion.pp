@@ -2,7 +2,7 @@
 #
 #
 
-class short_hosts {
+class profiles::orchestration::short_hosts {
 
   file { '/etc/bash_completion.d/short_hosts':
     ensure  => 'file',

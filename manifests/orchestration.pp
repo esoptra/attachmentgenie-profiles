@@ -10,6 +10,7 @@ class profiles::orchestration (
   Boolean $consul      = false,
   Boolean $mcollective = false,
   Boolean $rundeck     = false,
+  Boolean $short_host  = false,
 ) {
   if $consul {
     class { '::profiles::orchestration::consul': }
@@ -20,5 +21,7 @@ class profiles::orchestration (
   if $rundeck {
     class { '::profiles::orchestration::rundeck': }
   }
-  class { '::profiles::orchestration::short_hosts': }
+  if $short_host {
+    class { '::profiles::orchestration::short_hosts': }
+  }  
 }

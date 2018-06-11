@@ -101,11 +101,11 @@ class profiles::bootstrap::puppet (
     use_srv_records             => $use_srv_records,
   }
   if $server {
-    if versioncmp($::puppetversion, '4.0.0') <= 0 {
+    if versioncmp($::puppetversion, '5.5.1') <= 0 {
       file { 'hiera.yaml':
         mode    => '0644',
-        owner   => 'puppet',
-        group   => 'puppet',
+        owner   => 'root',
+        group   => 'root',
         content => template('profiles/hiera.yaml.erb'),
         path    => '/etc/puppetlabs/puppet/hiera.yaml',
       }

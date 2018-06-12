@@ -50,7 +50,7 @@ class profiles::monitoring::icinga2 (
   String $parent_zone = 'master',
   String $plugins_package = $::profiles::monitoring::icinga2::params::plugins_package,
   Boolean $server = false,
-  Array $esoptra = [ 'none' ],
+  Array $esoptra = [ 'host.display_name == none' ],
   Boolean $notazure = false,
   Boolean $slack = false,
   Optional[String] $note_cmd_name  = undef,
@@ -238,7 +238,7 @@ class profiles::monitoring::icinga2 (
       apply            => true,
       check_command    => 'jenkins-esoptra',
       command_endpoint => 'host.name',
-      assign           => ['host.display_name == "mgmtjmaster01"'],
+      assign           => ['host.display_name == mgmtjmaster01'],
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 
@@ -248,7 +248,7 @@ class profiles::monitoring::icinga2 (
       apply            => true,
       check_command    => 'jenkins-layers',
       command_endpoint => 'host.name',
-      assign           => ['host.display_name == "mgmtjmaster01"'],
+      assign           => ['host.display_name == mgmtjmaster01'],
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 
@@ -258,7 +258,7 @@ class profiles::monitoring::icinga2 (
       apply            => true,
       check_command    => 'jenkins-pluglets',
       command_endpoint => 'host.name',
-      assign           => ['host.display_name == "mgmtjmaster01"'],
+      assign           => ['host.display_name == mgmtjmaster01'],
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 

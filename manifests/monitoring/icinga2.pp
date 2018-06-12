@@ -227,6 +227,7 @@ class profiles::monitoring::icinga2 (
                           - 'host.display_name == theorybrainjar'
                           ],
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
+      
 }
     ::icinga2::object::service { 'jenkins-qa':
       import           => ['generic-service'],
@@ -238,11 +239,11 @@ class profiles::monitoring::icinga2 (
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 
-    ::icinga2::object::service { 'jenkins-esoptra
+    ::icinga2::object::service { 'jenkins-esoptra':
       import           => ['generic-service'],
-      service_name     => 'jenkins-esoptra
+      service_name     => 'jenkins-esoptra',
       apply            => true,
-      check_command    => 'jenkins-esoptra
+      check_command    => 'jenkins-esoptra',
       command_endpoint => 'host.name',
       assign           => ['host.display_name == mgmtjmaster01'],
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',

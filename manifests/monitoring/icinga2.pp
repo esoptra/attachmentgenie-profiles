@@ -25,7 +25,7 @@
 # @param slack_channel     Slack channel to send notifications to.
 # @param slack_webhook     Slack webhook url.
 # @param vars              Icinga vars.
-# @param esoptra           enable esoptra specific checks
+# @param esoptra           array with hosts to check esoptra service on
 # @params jenkins          enable jenkins specific checks
 # @params notazure          enable notazure specific checks
 # @params note_cmd_name             name
@@ -50,8 +50,7 @@ class profiles::monitoring::icinga2 (
   String $parent_zone = 'master',
   String $plugins_package = $::profiles::monitoring::icinga2::params::plugins_package,
   Boolean $server = false,
-  Boolean $esoptra = false,
-  Boolean $jenkins = false, 
+  Array $esoptra = [ 'none' ],
   Boolean $notazure = false,
   Boolean $slack = false,
   Optional[String] $note_cmd_name  = undef,
@@ -219,16 +218,10 @@ class profiles::monitoring::icinga2 (
       apply            => true,
       check_command    => 'esoptra',
       command_endpoint => 'host.name',
-      assign           => [
-                          - 'host.display_name == "realityregistry"'
-                          - 'host.display_name == "realitysquare"'
-                          - 'host.display_name == "foresthotel"'
-                          - 'host.display_name == "theorytheorynext"'
-                          - 'host.display_name == "theorybrainjar"'
-                          ],
+      assign           => [ $esoptra ],
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
-      
 }
+
     ::icinga2::object::service { 'jenkins-qa':
       import           => ['generic-service'],
       service_name     => 'jenkins-qa',

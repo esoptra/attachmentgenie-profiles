@@ -220,11 +220,11 @@ class profiles::monitoring::icinga2 (
       check_command    => 'esoptra',
       command_endpoint => 'host.name',
       assign           => [
-                          - 'host.display_name == realityregistry'
-                          - 'host.display_name == realitysquare'
-                          - 'host.display_name == foresthotel'
-                          - 'host.display_name == theorytheorynext'
-                          - 'host.display_name == theorybrainjar'
+                          - 'host.display_name == "realityregistry"'
+                          - 'host.display_name == "realitysquare"'
+                          - 'host.display_name == "foresthotel"'
+                          - 'host.display_name == "theorytheorynext"'
+                          - 'host.display_name == "theorybrainjar"'
                           ],
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
       
@@ -235,7 +235,7 @@ class profiles::monitoring::icinga2 (
       apply            => true,
       check_command    => 'jenkins-qa',
       command_endpoint => 'host.name',
-      assign           => ['host.display_name == mgmtjmaster02'],
+      assign           => ['host.display_name == "mgmtjmaster02"'],
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 
@@ -245,7 +245,7 @@ class profiles::monitoring::icinga2 (
       apply            => true,
       check_command    => 'jenkins-esoptra',
       command_endpoint => 'host.name',
-      assign           => ['host.display_name == mgmtjmaster01'],
+      assign           => ['host.display_name == "mgmtjmaster01"'],
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 
@@ -255,7 +255,7 @@ class profiles::monitoring::icinga2 (
       apply            => true,
       check_command    => 'jenkins-layers',
       command_endpoint => 'host.name',
-      assign           => ['host.display_name == mgmtjmaster01'],
+      assign           => ['host.display_name == "mgmtjmaster01"'],
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 
@@ -265,7 +265,7 @@ class profiles::monitoring::icinga2 (
       apply            => true,
       check_command    => 'jenkins-pluglets',
       command_endpoint => 'host.name',
-      assign           => ['host.display_name == mgmtjmaster01'],
+      assign           => ['host.display_name == "mgmtjmaster01"'],
       target           => '/etc/icinga2/zones.d/global-templates/services.conf',
     }
 

@@ -25,7 +25,7 @@ class profiles::orchestration::consul (
   Boolean $resolv = false,
   Array $searchpath = [],
   Hash $services = {},
-  String $version = '1.0.0',
+  String $version = '1.2.1',
   Hash $watches = {},
 ) {
   package { 'unzip':
@@ -46,7 +46,8 @@ class profiles::orchestration::consul (
     dnsmasq::conf { 'consul':
       ensure  => present,
       prio    => 10,
-      content => 'server=/consul/127.0.0.1#8600',
+      content => ['server=/consul/127.0.0.1#8600','server=/10.in-addr.arpa/127.0.0.1#8600','server=/32.172.in-addr.arpa/127.0.0.1#8600'],
+,
     }
     dnsmasq::conf { 'azure':
       ensure  => present,
